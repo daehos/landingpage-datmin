@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -30,6 +30,20 @@ list_order = [
 @app.route('/order')
 def orderPage():
     return render_template('listOrder.html', list_order=list_order)
+
+
+@app.route('/form', methods=['GET', 'POST'])
+def order():
+    if request.method == 'POST':
+        # Dapatkan data dari formulir
+        name = request.form.get('name')
+        email = request.form.get('email')
+        product = request.form.get('product')
+        quantity = request.form.get('quantity')
+
+        return f'Terima kasih, {name}! Pesanan Anda untuk {quantity} {product} sudah kami terima.'
+    
+    return render_template('order_form.html')
 
 
 if __name__ == '__main__':
